@@ -1,2 +1,2 @@
 # Js-full
-Acode repo for JS
+A code repo for JS
