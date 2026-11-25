@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Shop - Practice Website</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login -->
+  <section id="loginPage" class="login-page">
+    <div class="login-card">
+      <div class="brand">QA<span>Shop</span></div>
+      <h1>Welcome back</h1>
+      <p class="muted">Sign in to continue to your practice dashboard.</p>
+
+      <label for="loginUsername">Username</label>
+      <input id="loginUsername" type="text" placeholder="Enter username">
+
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" placeholder="Enter password">
+
+      <button id="loginBtn" class="primary full">Sign In</button>
+      <p id="loginMessage" class="error"></p>
+      <small>Demo: admin / admin123</small>
+    </div>
+  </section>
+
+  <!-- Main App -->
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand side-brand">QA<span>Shop</span></div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard">🏠 Dashboard</button>
+        <button class="nav-item" data-page="products">🛍 Products</button>
+        <button class="nav-item" data-page="orders">📦 Orders</button>
+        <button class="nav-item" data-page="users">👥 Users</button>
+        <button class="nav-item" data-page="forms">📝 Forms Lab</button>
+        <button class="nav-item" data-page="advanced">🧪 Advanced Lab</button>
+      </nav>
+      <button id="logoutBtn" class="logout">↪ Logout</button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="pageTitle">Dashboard</h2>
+          <span class="muted">Playwright Automation Practice</span>
+        </div>
+        <div class="top-actions">
+          <input id="globalSearch" class="small-search" placeholder="Search...">
+          <button id="cartBtn" class="cart-button">🛒 Cart <span id="cartCount">0</span></button>
+          <div class="avatar" title="Admin user">A</div>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="page active-page">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">QA PRACTICE APP</span>
+            <h1>Everything you need to practice Playwright.</h1>
+            <p>Use this small e-commerce style application to practice locators, actions, assertions, waits and real UI flows.</p>
+            <button class="primary" id="heroProductsBtn">Explore Products</button>
+          </div>
+          <div class="hero-icon">⚡</div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card"><span>Products</span><strong id="statProducts">8</strong></div>
+          <div class="stat-card"><span>Orders</span><strong>24</strong></div>
+          <div class="stat-card"><span>Users</span><strong>12</strong></div>
+          <div class="stat-card"><span>Revenue</span><strong>₹48,250</strong></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>Recent Orders</h3><button class="link-btn" data-page-link="orders">View all</button></div>
+          <table>
+            <thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>#ORD-1001</td><td>Rahul</td><td>₹2,499</td><td><span class="badge success">Delivered</span></td></tr>
+              <tr><td>#ORD-1002</td><td>Priya</td><td>₹5,899</td><td><span class="badge warning">Processing</span></td></tr>
+              <tr><td>#ORD-1003</td><td>Amit</td><td>₹1,299</td><td><span class="badge info">Shipped</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Products -->
+      <section id="products" class="page">
+        <div class="section-head">
+          <div><h1>Products</h1><p class="muted">Search, filter, sort and add products to cart.</p></div>
+          <button class="primary" id="clearFiltersBtn">Clear Filters</button>
+        </div>
+        <div class="toolbar">
+          <input id="productSearch" placeholder="Search products...">
+          <select id="categoryFilter">
+            <option value="">All categories</option>
+            <option>Electronics</option><option>Accessories</option><option>Office</option>
+          </select>
+          <select id="sortProducts">
+            <option value="">Sort by</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+          </select>
+        </div>
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+
+      <!-- Orders -->
+      <section id="orders" class="page">
+        <div class="section-head">
+          <div><h1>Orders</h1><p class="muted">Practice tables, filters and row actions.</p></div>
+          <select id="orderStatusFilter"><option value="">All statuses</option><option>Delivered</option><option>Processing</option><option>Shipped</option><option>Cancelled</option></select>
+        </div>
+        <div class="panel">
+          <input id="orderSearch" class="table-search" placeholder="Search order/customer...">
+          <table id="ordersTable">
+            <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+          <div class="pagination" id="orderPagination"></div>
+        </div>
+      </section>
+
+      <!-- Users -->
+      <section id="users" class="page">
+        <div class="section-head"><div><h1>Users</h1><p class="muted">Search, filter, pagination and row actions.</p></div></div>
+        <div class="toolbar">
+          <input id="userSearch" placeholder="Search users...">
+          <select id="roleFilter"><option value="">All roles</option><option>Admin</option><option>Manager</option><option>Customer</option></select>
+          <select id="userStatusFilter"><option value="">All status</option><option>Active</option><option>Inactive</option></select>
+        </div>
+        <div class="panel">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Forms -->
+      <section id="forms" class="page">
+        <div class="section-head"><div><h1>Forms Lab</h1><p class="muted">All common form controls in a realistic settings page.</p></div></div>
+        <div class="form-layout">
+          <div class="panel form-panel">
+            <h3>Profile & Preferences</h3>
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" placeholder="Sudhir Kumar">
+
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com">
+
+            <label for="age">Age</label>
+            <input id="age" type="number" min="1" max="100" placeholder="25">
+
+            <label for="dob">Date of Birth</label>
+            <input id="dob" type="date">
+
+            <label for="department">Department</label>
+            <select id="department">
+              <option value="">Choose department</option>
+              <option>QA</option><option>Development</option><option>Product</option><option>Support</option>
+            </select>
+
+            <label for="skills">Skills (Multi-select)</label>
+            <select id="skills" multiple size="4">
+              <option>Playwright</option><option>Selenium</option><option>JavaScript</option><option>API Testing</option><option>SQL</option>
+            </select>
+
+            <label>Experience Level</label>
+            <div class="choice-row">
+              <label><input type="radio" name="level" value="junior"> Junior</label>
+              <label><input type="radio" name="level" value="mid"> Mid</label>
+              <label><input type="radio" name="level" value="senior"> Senior</label>
+            </div>
+
+            <label>Interests</label>
+            <div class="choice-row wrap">
+              <label><input type="checkbox" class="interest" value="Automation"> Automation</label>
+              <label><input type="checkbox" class="interest" value="API"> API</label>
+              <label><input type="checkbox" class="interest" value="Performance"> Performance</label>
+            </div>
+
+            <label for="bio">About You</label>
+            <textarea id="bio" rows="4" placeholder="Write something..."></textarea>
+
+            <label for="experienceRange">Experience: <span id="rangeValue">5</span> years</label>
+            <input id="experienceRange" type="range" min="0" max="15" value="5">
+
+            <button id="saveProfileBtn" class="primary">Save Profile</button>
+          </div>
+
+          <div class="panel">
+            <h3>Saved Data</h3>
+            <div id="savedProfile" class="saved-box">Nothing saved yet.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced -->
+      <section id="advanced" class="page">
+        <div class="section-head"><div><h1>Advanced Interaction Lab</h1><p class="muted">Practice dialogs, hover, upload, download, iframe, popup and dynamic states.</p></div></div>
+
+        <div class="advanced-grid">
+          <div class="panel">
+            <h3>Modal & Toast</h3>
+            <button id="modalBtn" class="secondary">Open Modal</button>
+            <button id="toastBtn" class="secondary">Show Toast</button>
+          </div>
+
+          <div class="panel">
+            <h3>Loading & Disabled</h3>
+            <button id="loadingBtn" class="primary">Load Data</button>
+            <button id="disabledBtn" class="secondary" disabled>Disabled Button</button>
+            <p id="loadingResult" class="muted"></p>
+          </div>
+
+          <div class="panel">
+            <h3>Dialogs</h3>
+            <button id="alertBtn" class="secondary">Show Alert</button>
+            <button id="confirmBtn" class="secondary">Show Confirm</button>
+          </div>
+
+          <div class="panel hover-card">
+            <h3>Hover Menu</h3>
+            <div class="hover-target">Hover me
+              <div class="hover-menu">
+                <button id="hoverOption">Hidden option</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>File Upload</h3>
+            <input id="fileUpload" type="file">
+            <p id="fileName" class="muted">No file selected.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Download</h3>
+            <button id="downloadBtn" class="secondary">Download Report</button>
+          </div>
+
+          <div class="panel">
+            <h3>New Tab</h3>
+            <button id="newTabBtn" class="secondary">Open Help in New Tab</button>
+          </div>
+
+          <div class="panel">
+            <h3>Keyboard</h3>
+            <input id="keyboardInput" placeholder="Type and press Enter">
+            <p id="keyboardResult" class="muted"></p>
+          </div>
+
+          <div class="panel iframe-panel">
+            <h3>Iframe</h3>
+            <iframe id="practiceFrame" title="Practice Frame" srcdoc='
+              <!doctype html><html><body style="font-family:Arial;padding:20px">
+              <h3 id="frameTitle">Inside Practice Frame</h3>
+              <input id="frameInput" placeholder="Frame input">
+              <button id="frameBtn" onclick="document.getElementById("frameResult").textContent="Frame submitted"">Submit</button>
+              <p id="frameResult"></p>
+              </body></html>'></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" data-close="productModal">×</button>
+      <div id="productModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal hidden">
+    <div class="modal-card cart-card">
+      <button class="modal-close" data-close="cartModal">×</button>
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total">Total: <strong id="cartTotal">₹0</strong></div>
+      <button id="checkoutBtn" class="primary full">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Generic Modal -->
+  <div id="genericModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" data-close="genericModal">×</button>
+      <h2>Practice Modal</h2>
+      <p>This is a modal dialog. Use it to practice locating, asserting and closing dialogs.</p>
+      <button id="modalConfirmBtn" class="primary">Confirm</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
